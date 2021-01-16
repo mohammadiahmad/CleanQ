@@ -14,12 +14,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from clinic.views import signup
+from django.urls import path,include
+from clinic.views import clinic,clinic_manager,patient
 from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('signup/', signup, name='signup'),
+    # path('signup/', signup, name='signup'),
+    path('', include('clinic.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/signup/', clinic.SignUpView.as_view(), name='signup'),
+    path('accounts/signup/clinic-manager/', clinic_manager.ClinicSignUpView.as_view(), name='clinic_manager_signup'),
+    path('accounts/signup/patient/', patient.PatientSignUpView.as_view(), name='patient_signup'),
 
 ]

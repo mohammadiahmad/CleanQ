@@ -11,7 +11,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
+            user.refresh_from_db()
             user.clinic.clinic_name = form.cleaned_data.get('clinic_name')
             user.clinic.address = form.cleaned_data.get('address')
             user.clinic.phone_number = form.cleaned_data.get('phone_number')
@@ -19,7 +19,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            return redirect('/ ')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})

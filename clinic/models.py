@@ -1,10 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
+class User(AbstractUser):
+    is_clinic_manager = models.BooleanField(default=False)
+    is_patient = models.BooleanField(default=False)
 
 
 class Patient(models.Model):
@@ -26,8 +29,9 @@ class Clinic(models.Model):
     phone_number = models.CharField(max_length=13)
 
 
-@receiver(post_save, sender=User)
-def update_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Clinic.objects.create(user=instance)
-    instance.clinic.save()
+class Reserve(models.Model):
+    clinic=models.OneToOneField(Clinic,on_delete=models.CASCADE)
+    patient=models.OneToOneField(Patient,on_delete=models.CASCADE)
+    reserved_time=models.DateTimeField()
+
+
