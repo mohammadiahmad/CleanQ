@@ -4,16 +4,17 @@ from .views import clinic,clinic_manager,patient
 
 urlpatterns = [
     path('', clinic.home, name='home'),
-    # path('patient/', include(([
-    #                                path('', patient.home.as_view(), name='quiz_list'),
+    path('patient/', include(([
+                                    path('', patient.ReservationListView.as_view(), name='reservation_list'),
+                                    path('profile/', patient.Profile.as_view(), name='profile_detail'),
     #                                # path('interests/', students.StudentInterestsView.as_view(),
     #                                #      name='student_interests'),
     #                                # path('taken/', students.TakenQuizListView.as_view(), name='taken_quiz_list'),
     #                                # path('quiz/<int:pk>/', students.take_quiz, name='take_quiz'),
-    #                            ], 'clinic'), namespace='patient')),
+                               ], 'clinic'), namespace='patient')),
     path('clinic-manger/', include(([
                                    path('', clinic_manager.ReservationListView.as_view(), name='reservation_list'),
-    #                                # path('quiz/add/', teachers.QuizCreateView.as_view(), name='quiz_add'),
+                                   path('profile/', clinic_manager.Profile.as_view(), name='profile_detail'),
     #                                # path('quiz/<int:pk>/', teachers.QuizUpdateView.as_view(), name='quiz_change'),
     #                                # path('quiz/<int:pk>/delete/', teachers.QuizDeleteView.as_view(), name='quiz_delete'),
     #                                # path('quiz/<int:pk>/results/', teachers.QuizResultsView.as_view(),
